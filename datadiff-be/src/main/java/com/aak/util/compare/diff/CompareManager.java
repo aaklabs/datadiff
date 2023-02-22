@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.aak.util.compare.model.DBColumn;
 import com.aak.util.compare.model.DBRow;
 import com.aak.util.compare.model.api.ColumnCompareResult;
-import com.aak.util.compare.model.api.CompareResponse;
 import com.aak.util.compare.model.api.RowCompareResult;
 
 import lombok.extern.slf4j.Slf4j;
