@@ -25,8 +25,8 @@ public class H2DataSource {
 	@Autowired
 	private Environment env;
 
-	@Bean(name="PostgresDataSource",destroyMethod = "close")
-	public DataSource postgresDataSource(){
+	@Bean(name="H2dbDataSource",destroyMethod = "close")
+	public DataSource H2dbDataSource(){
 		   HikariConfig hikariConfig = new HikariConfig();
 		    hikariConfig.setDriverClassName(env.getProperty("dc.h2.db.driver-class-name"));
 		    hikariConfig.setJdbcUrl(env.getProperty("dc.h2.db.url")); 
@@ -46,21 +46,21 @@ public class H2DataSource {
 	    return dataSource;
 	}
 	
-	@Bean(name="PostgresJdbcTemplate")
+	@Bean(name="H2dbJdbcTemplate")
 	@Primary
-	public JdbcTemplate postgresJdbcTemplate(@Qualifier("PostgresDataSource") DataSource dataSource) {
+	public JdbcTemplate H2dbJdbcTemplate(@Qualifier("H2dbDataSource") DataSource dataSource) {
 		return new JdbcTemplate(dataSource);
 	}
 	
-	@Bean(name="PostgresNamedParameterJdbcTemplate")
+	@Bean(name="H2dbNamedParameterJdbcTemplate")
 	@Primary
-	public NamedParameterJdbcTemplate postgresNamedParameterJdbcTemplate(@Qualifier("PostgresDataSource") DataSource dataSource) {
-		return new NamedParameterJdbcTemplate(postgresJdbcTemplate(dataSource));
+	public NamedParameterJdbcTemplate H2dbNamedParameterJdbcTemplate(@Qualifier("H2dbDataSource") DataSource dataSource) {
+		return new NamedParameterJdbcTemplate(H2dbJdbcTemplate(dataSource));
 	}
 	
-	@Bean(name="PostgresTransactionManager")
+	@Bean(name="H2dbTransactionManager")
 	@Primary
-	public DataSourceTransactionManager PostgresTransactionManager(@Qualifier("PostgresDataSource") DataSource dataSource) {
+	public DataSourceTransactionManager H2dbTransactionManager(@Qualifier("H2dbDataSource") DataSource dataSource) {
 		return new DataSourceTransactionManager(dataSource);
 	}
 }
