@@ -27,7 +27,7 @@ public class CompareController {
 
 	@GetMapping(path = "/test")
 	public List<RowCompareResult> getData() throws Exception {
-		return service.compareSqlQuery("SELECT * FROM authors", "SELECT * FROM authors2", DBSource.DB1, DBSource.DB1);
+		return service.compareSqlQuery("SELECT * FROM authors ", "SELECT * FROM authors2 limit 2", DBSource.DB1, DBSource.DB1);
 	}
 	
 	@GetMapping(path = "/test/grid")
