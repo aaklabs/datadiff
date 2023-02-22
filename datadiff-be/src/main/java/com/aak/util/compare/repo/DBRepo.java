@@ -123,6 +123,8 @@ public abstract class DBRepo {
 	public List<Map<String, DBColumn>> getRecordsUsingSqlQuery(String sql) {
 		List<Map<String, DBColumn>> recordList = null;
 		
+	    final AtomicInteger integerCounter = new AtomicInteger(0);
+
 		recordList = jdbcTemplate.query(sql, new RowMapper<Map<String, DBColumn>>() {
 			int count=0;
 			@Override
@@ -132,7 +134,7 @@ public abstract class DBRepo {
 				int columnCount = metaData.getColumnCount();
 				for (int i = 0; i <= columnCount; i++) {
 					String columnName = metaData.getColumnName(i);
-					recordMap.put(columnName, new DBColumn(count++, metaData.getColumnName(index), rs.getObject(i), metaData.getColumnTypeName(i), metaData.getTableName(i)));
+					recordMap.put(columnName, new DBColumn(integerCounter.incrementAndGet(), metaData.getColumnName(index), rs.getObject(i), metaData.getColumnTypeName(i), metaData.getTableName(i)));
 				}
 				return recordMap;
 			}
