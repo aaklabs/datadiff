@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.aak.util.compare.diff.model.DBSource;
 import com.aak.util.compare.repo.DBRepo;
 import com.aak.util.compare.repo.MySqlRepo;
-import com.aak.util.compare.repo.PostgresRepo;
+import com.aak.util.compare.repo.H2Repo;
 
 @Service
 public class DBRepositoryFactory {
@@ -15,7 +15,7 @@ public class DBRepositoryFactory {
 	private MySqlRepo db1Repo;
 
 	@Autowired
-	private PostgresRepo db2Repo;
+	private H2Repo db2Repo;
 
 	
 	public DBRepo getRepo(DBSource type) throws Exception {
