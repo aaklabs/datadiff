@@ -6,7 +6,6 @@ plugins {
 
 group = 'com.aak.util.compare'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
 
 configurations {
 	compileOnly {
@@ -21,7 +20,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	implementation 'org.springframework.boot:spring-boot-devtools'
 	
 	implementation 'org.springframework:spring-jdbc:6.0.4'
 	implementation 'com.zaxxer:HikariCP:5.0.1'
