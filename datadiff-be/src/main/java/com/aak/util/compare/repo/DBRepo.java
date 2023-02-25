@@ -89,17 +89,16 @@ public abstract class DBRepo {
 				Map<String, DBColumn> recordMap = new LinkedHashMap<>();
 				ResultSetMetaData metaData = rs.getMetaData();
 				int columnCount = metaData.getColumnCount();
-				int row = 1;
+				int colCounter =1;
 				for (int i = 1; i <= columnCount; i++) {
 					String columnName 	= metaData.getColumnName(i);
 					Object columnValue 	= rs.getObject(i);
 					String columnTypeName = metaData.getColumnTypeName(i);
 					String tableName = metaData.getTableName(i);
-					DBColumn r = new DBColumn(row, columnName, columnValue, columnTypeName, tableName);
-					  
+					DBColumn r = new DBColumn(rs.getRow(),colCounter,  columnName, columnValue, columnTypeName, tableName);
 					recordMap.put(columnName,r);
+					colCounter++;
 				}
-				row++;
 				return recordMap;
 			}
 		});
@@ -123,18 +122,18 @@ public abstract class DBRepo {
 	public List<Map<String, DBColumn>> getRecordsUsingSqlQuery(String sql) {
 		List<Map<String, DBColumn>> recordList = null;
 		
-	    final AtomicInteger integerCounter = new AtomicInteger(0);
-
 		recordList = jdbcTemplate.query(sql, new RowMapper<Map<String, DBColumn>>() {
-			int count=0;
+			
 			@Override
 			public Map<String, DBColumn> mapRow(ResultSet rs, int index) throws SQLException {
 				Map<String, DBColumn> recordMap = new HashMap<>();
 				ResultSetMetaData metaData = rs.getMetaData();
 				int columnCount = metaData.getColumnCount();
+				int count=1;
 				for (int i = 0; i <= columnCount; i++) {
 					String columnName = metaData.getColumnName(i);
-					recordMap.put(columnName, new DBColumn(integerCounter.incrementAndGet(), metaData.getColumnName(index), rs.getObject(i), metaData.getColumnTypeName(i), metaData.getTableName(i)));
+					recordMap.put(columnName, new DBColumn(rs.getRow() ,columnCount, metaData.getColumnName(index), rs.getObject(i), metaData.getColumnTypeName(i), metaData.getTableName(i)));
+					columnCount++;
 				}
 				return recordMap;
 			}

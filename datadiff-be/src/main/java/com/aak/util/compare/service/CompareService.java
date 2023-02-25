@@ -63,8 +63,8 @@ public class CompareService {
 			GridRow row = new GridRow();
 			
 			for (ColumnCompareResult column : columns.getColumns()) {
-				GridRowColumn columnDb1 = new GridRowColumn(column.getDb1().getRowNo(), column.getDb1().getColumnName()+"_db1", column.getDb1().getColumnValue(), column.getDb1().getDataType(), column.isDifferent(), column.isOnlyInDb1(), column.isOnlyInDb2(), column.isNullInBoth(), column.getComments(), column.isError());
-				GridRowColumn columnDb2 = new GridRowColumn(column.getDb2().getRowNo(), column.getDb2().getColumnName()+"_db2", column.getDb2().getColumnValue(), column.getDb2().getDataType(), column.isDifferent(), column.isOnlyInDb1(), column.isOnlyInDb2(), column.isNullInBoth(), column.getComments(), column.isError());
+				GridRowColumn columnDb1 = new GridRowColumn(column.getDb1().getRowNo(), column.getDb1().getColId(),  column.getDb1().getColumnName()+"_db1", column.getDb1().getColumnValue(), column.getDb1().getDataType(), column.isDifferent(), column.isOnlyInDb1(), column.isOnlyInDb2(), column.isNullInBoth(), column.getComments(), column.isError());
+				GridRowColumn columnDb2 = new GridRowColumn(column.getDb2().getRowNo(), column.getDb2().getColId(), column.getDb2().getColumnName()+"_db2", column.getDb2().getColumnValue(), column.getDb2().getDataType(), column.isDifferent(), column.isOnlyInDb1(), column.isOnlyInDb2(), column.isNullInBoth(), column.getComments(), column.isError());
 				row.getRows().add(columnDb1);
 				row.getRows().add(columnDb2);
 			}

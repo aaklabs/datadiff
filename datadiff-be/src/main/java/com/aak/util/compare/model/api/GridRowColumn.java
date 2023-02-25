@@ -4,7 +4,26 @@ import java.util.List;
 import java.util.Objects;
 
 public class GridRowColumn {
+	
+	public GridRowColumn(int rowNo, int colNo, String columnName, Object columnValue, String dataType,
+			boolean isDifferent, boolean isOnlyInDb1, boolean isOnlyInDb2, boolean isNullInBoth, List<String> comments,
+			boolean isError) {
+		super();
+		this.rowNo = rowNo;
+		this.colNo = colNo;
+		this.columnName = columnName;
+		this.columnValue = columnValue;
+		this.dataType = dataType;
+		this.isDifferent = isDifferent;
+		this.isOnlyInDb1 = isOnlyInDb1;
+		this.isOnlyInDb2 = isOnlyInDb2;
+		this.isNullInBoth = isNullInBoth;
+		this.comments = comments;
+		this.isError = isError;
+	}
+	
 	private int rowNo;
+	private int colNo;
 	private String columnName;
 	private Object columnValue;
 	private String dataType;
@@ -26,20 +45,6 @@ public class GridRowColumn {
 	}
 	public GridRowColumn() {
 		super();
-	}
-	public GridRowColumn(int rowNo, String columnName, Object columnValue, String dataType, boolean isDifferent,
-			boolean isOnlyInDb1, boolean isOnlyInDb2, boolean isNullInBoth, List<String> comments, boolean isError) {
-		super();
-		this.rowNo = rowNo;
-		this.columnName = columnName;
-		this.columnValue = columnValue;
-		this.dataType = dataType;
-		this.isDifferent = isDifferent;
-		this.isOnlyInDb1 = isOnlyInDb1;
-		this.isOnlyInDb2 = isOnlyInDb2;
-		this.isNullInBoth = isNullInBoth;
-		this.comments = comments;
-		this.isError = isError;
 	}
 	public void setColumnName(String columnName) {
 		this.columnName = columnName;
@@ -93,15 +98,8 @@ public class GridRowColumn {
 		this.isError = isError;
 	}
 	@Override
-	public String toString() {
-		return "GridRowColumn [rowNo=" + rowNo + ", columnName=" + columnName + ", columnValue=" + columnValue
-				+ ", dataType=" + dataType + ", isDifferent=" + isDifferent + ", isOnlyInDb1=" + isOnlyInDb1
-				+ ", isOnlyInDb2=" + isOnlyInDb2 + ", isNullInBoth=" + isNullInBoth + ", comments=" + comments
-				+ ", isError=" + isError + "]";
-	}
-	@Override
 	public int hashCode() {
-		return Objects.hash(columnName, columnValue, comments, dataType, isDifferent, isError, isNullInBoth,
+		return Objects.hash(colNo, columnName, columnValue, comments, dataType, isDifferent, isError, isNullInBoth,
 				isOnlyInDb1, isOnlyInDb2, rowNo);
 	}
 	@Override
@@ -113,10 +111,24 @@ public class GridRowColumn {
 		if (getClass() != obj.getClass())
 			return false;
 		GridRowColumn other = (GridRowColumn) obj;
-		return Objects.equals(columnName, other.columnName) && Objects.equals(columnValue, other.columnValue)
-				&& Objects.equals(comments, other.comments) && Objects.equals(dataType, other.dataType)
-				&& isDifferent == other.isDifferent && isError == other.isError && isNullInBoth == other.isNullInBoth
-				&& isOnlyInDb1 == other.isOnlyInDb1 && isOnlyInDb2 == other.isOnlyInDb2 && rowNo == other.rowNo;
+		return colNo == other.colNo && Objects.equals(columnName, other.columnName)
+				&& Objects.equals(columnValue, other.columnValue) && Objects.equals(comments, other.comments)
+				&& Objects.equals(dataType, other.dataType) && isDifferent == other.isDifferent
+				&& isError == other.isError && isNullInBoth == other.isNullInBoth && isOnlyInDb1 == other.isOnlyInDb1
+				&& isOnlyInDb2 == other.isOnlyInDb2 && rowNo == other.rowNo;
 	}
-
+	@Override
+	public String toString() {
+		return "GridRowColumn [rowNo=" + rowNo + ", colNo=" + colNo + ", columnName=" + columnName + ", columnValue="
+				+ columnValue + ", dataType=" + dataType + ", isDifferent=" + isDifferent + ", isOnlyInDb1="
+				+ isOnlyInDb1 + ", isOnlyInDb2=" + isOnlyInDb2 + ", isNullInBoth=" + isNullInBoth + ", comments="
+				+ comments + ", isError=" + isError + "]";
+	}
+	public int getColNo() {
+		return colNo;
+	}
+	public void setColNo(int colNo) {
+		this.colNo = colNo;
+	}
+	
 }

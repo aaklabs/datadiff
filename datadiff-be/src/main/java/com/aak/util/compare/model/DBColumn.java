@@ -4,11 +4,25 @@ import java.util.Objects;
 
 public class DBColumn {
 	private int rowNo;
+	private int colId;
 	private String columnName;
 	private Object columnValue;
 	private String dataType;
 	private String tableName;
 	
+	
+	public DBColumn() {
+		super();
+	}
+	public DBColumn(int rowNo, int colId, String columnName, Object columnValue, String dataType, String tableName) {
+		super();
+		this.rowNo = rowNo;
+		this.colId = colId;
+		this.columnName = columnName;
+		this.columnValue = columnValue;
+		this.dataType = dataType;
+		this.tableName = tableName;
+	}
 	public int getRowNo() {
 		return rowNo;
 	}
@@ -41,7 +55,18 @@ public class DBColumn {
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(columnName, columnValue, dataType, rowNo, tableName);
+		return Objects.hash(colId, columnName, columnValue, dataType, rowNo, tableName);
+	}
+	public int getColId() {
+		return colId;
+	}
+	public void setColId(int colId) {
+		this.colId = colId;
+	}
+	@Override
+	public String toString() {
+		return "DBColumn [rowNo=" + rowNo + ", colId=" + colId + ", columnName=" + columnName + ", columnValue="
+				+ columnValue + ", dataType=" + dataType + ", tableName=" + tableName + "]";
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -52,22 +77,9 @@ public class DBColumn {
 		if (getClass() != obj.getClass())
 			return false;
 		DBColumn other = (DBColumn) obj;
-		return Objects.equals(columnName, other.columnName) && Objects.equals(columnValue, other.columnValue)
-				&& Objects.equals(dataType, other.dataType) && rowNo == other.rowNo
-				&& Objects.equals(tableName, other.tableName);
-	}
-	@Override
-	public String toString() {
-		return "DBColumn [rowNo=" + rowNo + ", columnName=" + columnName + ", columnValue=" + columnValue + ", dataType="
-				+ dataType + ", tableName=" + tableName + "]";
-	}
-	public DBColumn(int rowNo, String columnName, Object columnValue, String dataType, String tableName) {
-		super();
-		this.rowNo = rowNo;
-		this.columnName = columnName;
-		this.columnValue = columnValue;
-		this.dataType = dataType;
-		this.tableName = tableName;
+		return colId == other.colId && Objects.equals(columnName, other.columnName)
+				&& Objects.equals(columnValue, other.columnValue) && Objects.equals(dataType, other.dataType)
+				&& rowNo == other.rowNo && Objects.equals(tableName, other.tableName);
 	}
 	
 }

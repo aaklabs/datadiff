@@ -29,6 +29,8 @@ dependencies {
 	implementation 'mysql:mysql-connector-java:8.0.32'
 	implementation 'org.postgresql:postgresql:42.5.3'
 	
+	// https://mvnrepository.com/artifact/org.apache.commons/commons-csv
+	implementation group: 'org.apache.commons', name: 'commons-csv', version: '1.10.0'
 	
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
