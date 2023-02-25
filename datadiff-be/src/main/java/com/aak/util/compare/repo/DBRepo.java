@@ -5,11 +5,11 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -86,7 +86,7 @@ public abstract class DBRepo {
 		recordList = jdbcTemplate.query(sql, new RowMapper<Map<String, DBColumn>>() {
 			@Override
 			public Map<String, DBColumn> mapRow(ResultSet rs, int index) throws SQLException {
-				Map<String, DBColumn> recordMap = new HashMap<>();
+				Map<String, DBColumn> recordMap = new LinkedHashMap<>();
 				ResultSetMetaData metaData = rs.getMetaData();
 				int columnCount = metaData.getColumnCount();
 				int row = 1;

@@ -137,6 +137,10 @@ public class CompareManager {
 					try {
 						db1RowColRecord = db1RowRecord.getColumns().get(j);
 						db2RowColRecord = db2RowRecord.getColumns().get(j);
+						
+						log.info("db1Record -> {}",db1RowColRecord);
+						log.info("db2Record -> {}",db2RowColRecord);
+						
 						ColumnCompareResult compareResultItem = compareItem(db1RowColRecord, db2RowColRecord);
 						rowCompareResult.getColumns().add(compareResultItem);
 					} catch (Exception e) {
@@ -155,3 +159,4 @@ public class CompareManager {
 	}
 
 }
+
