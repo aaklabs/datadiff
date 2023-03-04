@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GridRow {
+	private boolean isDifferent = false;
 	private List<GridRowColumn> rows;
 
 	public GridRow() {
@@ -18,5 +19,13 @@ public class GridRow {
 	@Override
 	public String toString() {
 		return "UIRow [rows=" + rows + "]";
+	}
+
+	public boolean isDifferent() {
+		return isDifferent;
+	}
+
+	public void setDifferent(boolean isDifferent) {
+		this.isDifferent = isDifferent;
 	}
 }
