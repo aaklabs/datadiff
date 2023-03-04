@@ -1,7 +1,9 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.0.2'
-	id 'io.spring.dependency-management' version '1.1.0'
+	//id 'org.springframework.boot' version '3.0.2'
+	id 'org.springframework.boot' version '2.4.5'
+	//id 'io.spring.dependency-management' version '1.1.0'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
 group = 'com.aak.util.compare'
@@ -28,12 +30,14 @@ dependencies {
 	
 	implementation 'mysql:mysql-connector-java:8.0.32'
 	implementation 'org.postgresql:postgresql:42.5.3'
+	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.3'
 	
 	// https://mvnrepository.com/artifact/org.apache.commons/commons-csv
 	implementation group: 'org.apache.commons', name: 'commons-csv', version: '1.10.0'
 	
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
 }
 
 tasks.named('test') {
