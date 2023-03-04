@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 //@CrossOrigin("http://localhost:8081")
 @Controller
-@RequestMapping("/api/excel")
+//@RequestMapping("/api/excel")
 @Slf4j
 public class ExcelController {
 
@@ -35,7 +35,7 @@ public class ExcelController {
 	@Autowired
 	private ExcelService fileService;
 
-	@PostMapping("/compare/datagrid/download")
+	@PostMapping("/compare/datagrid/excel/download")
 	public ResponseEntity<Resource> compareDataUsingSqlQueryToFlatRowGridResponse(@RequestBody CompareRequest compareRequest) throws Exception {
 		log.info("Compare Request->{}", compareRequest);
 		CompareResponse compareResponse = service.compareSqlQueryAndResponseAsSingleGrid(compareRequest.getDb1SqlQuery(),compareRequest.getDb2SqlQuery(), DBSource.valueOf(compareRequest.getDb1Source()),DBSource.valueOf(compareRequest.getDb2Source()));
