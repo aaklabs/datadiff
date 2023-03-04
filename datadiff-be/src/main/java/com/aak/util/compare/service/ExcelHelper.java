@@ -41,8 +41,8 @@ public class ExcelHelper {
 
 		try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream();) {
 
-			generateExcelSheet(compareResponse, workbook, true, "Complete DataSet");
-			generateExcelSheet(compareResponse, workbook, false, "Diff Row DataSet");
+			generateExcelSheet(compareResponse, workbook, true, "All rows");
+			generateExcelSheet(compareResponse, workbook, false, "Mismatched");
 
 			workbook.write(out);
 			return new ByteArrayInputStream(out.toByteArray());
@@ -75,7 +75,7 @@ public class ExcelHelper {
 		Row row = completeDataSheet.createRow(rowIdx);
 		
 		Cell statusColumnCell = row.createCell(0);
-		statusColumnCell.setCellValue(gridRowItem.isDifferent() ? "DIFFERENT": "SAME");
+		statusColumnCell.setCellValue(gridRowItem.isDifferent() ? "MISMATCH": "MATCH");
 		
 		if(gridRowItem.isDifferent()) {
 			statusColumnCell.setCellStyle(getBadRowCellStyle(completeDataSheet));
