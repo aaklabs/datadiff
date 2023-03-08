@@ -1,5 +1,6 @@
 package com.aak.util.compare.service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.aak.util.compare.diff.CompareManager;
 import com.aak.util.compare.diff.model.DBSource;
 import com.aak.util.compare.model.DBRow;
+import com.aak.util.compare.model.DatabaseSqlQueryRowResponse;
 import com.aak.util.compare.model.api.ColumnCompareResult;
 import com.aak.util.compare.model.api.CompareResponse;
 import com.aak.util.compare.model.api.DatagridCombinedResponse;
@@ -26,16 +28,16 @@ public class CompareService {
 	private CompareManager comparator;
 	
 	public List<RowCompareResult> compareSqlQuery(String db1Sql, String db2Sql , DBSource db1Source, DBSource db2Source) throws Exception {
-		List<DBRow> db1Records = factory.getRepo(db1Source).getRecords(db1Sql);
-		List<DBRow> db2Records = factory.getRepo(db2Source).getRecords(db2Sql);
-		List<RowCompareResult> response = comparator.compareItem(db1Records, db2Records);
+		DatabaseSqlQueryRowResponse db1Records = factory.getRepo(db1Source).getRecords(db1Sql);
+		DatabaseSqlQueryRowResponse db2Records = factory.getRepo(db2Source).getRecords(db2Sql);
+		List<RowCompareResult> response = comparator.compareRecords(db1Records, db2Records);
 		return response;
 	}
 	
 	public DatagridCombinedResponse compareSqlQueryAndResponseAsGrid(String db1Sql, String db2Sql , DBSource db1Source, DBSource db2Source) throws Exception {
-		List<DBRow> db1Records = factory.getRepo(db1Source).getRecords(db1Sql);
-		List<DBRow> db2Records = factory.getRepo(db2Source).getRecords(db2Sql);
-		List<RowCompareResult> response = comparator.compareItem(db1Records, db2Records);
+		DatabaseSqlQueryRowResponse db1Records = factory.getRepo(db1Source).getRecords(db1Sql);
+		DatabaseSqlQueryRowResponse db2Records = factory.getRepo(db2Source).getRecords(db2Sql);
+		List<RowCompareResult> response = comparator.compareRecords(db1Records, db2Records);
 		
 		DatagridCombinedResponse gridResponse = new DatagridCombinedResponse();
 		
@@ -52,9 +54,10 @@ public class CompareService {
 	
 	
 	public CompareResponse compareSqlQueryAndResponseAsSingleGrid(String db1Sql, String db2Sql , DBSource db1Source, DBSource db2Source) throws Exception {
-		List<DBRow> db1Records = factory.getRepo(db1Source).getRecords(db1Sql);
-		List<DBRow> db2Records = factory.getRepo(db2Source).getRecords(db2Sql);
-		List<RowCompareResult> response = comparator.compareItem(db1Records, db2Records);
+		DatabaseSqlQueryRowResponse db1Records = factory.getRepo(db1Source).getRecords(db1Sql);
+		DatabaseSqlQueryRowResponse db2Records = factory.getRepo(db2Source).getRecords(db2Sql);
+		
+		List<RowCompareResult> response = comparator.compareRecords(db1Records, db2Records);
 		
 		CompareResponse compareResponse = new CompareResponse();
 		
@@ -82,8 +85,9 @@ public class CompareService {
 		return compareResponse;
 	}
 	
-	public List<DBRow> executeSqlQuery(String sql, DBSource dbSource) throws Exception {
-		List<DBRow> dbRecords = factory.getRepo(dbSource).getRecords(sql);
+
+	public DatabaseSqlQueryRowResponse executeSqlQuery(String sql, DBSource dbSource) throws Exception {
+		DatabaseSqlQueryRowResponse dbRecords = factory.getRepo(dbSource).getRecords(sql);
 		return dbRecords;
 	}
 }

@@ -1,13 +1,19 @@
 package com.aak.util.compare.diff;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.aak.util.compare.model.DBColumn;
+import com.aak.util.compare.model.DBColumnMeta;
 import com.aak.util.compare.model.DBRow;
+import com.aak.util.compare.model.DatabaseSqlQueryRowResponse;
 import com.aak.util.compare.model.api.ColumnCompareResult;
 import com.aak.util.compare.model.api.RowCompareResult;
 
@@ -82,7 +88,6 @@ public class CompareManager {
 		
 		// same
 		boolean isEqual = acutalValue.toString().equals(expectValue.toString());
-		
 		if(isEqual) {
 			compareResultItem.setDifferent(false);
 		}
@@ -97,25 +102,35 @@ public class CompareManager {
 
 	//db1 has more rows than db2
 	//db1 has more col than db2
-	public List<RowCompareResult> compareItem(List<DBRow> db1Rows, List<DBRow> db2Rows) {
-		int db1RowCount = db1Rows.size();
-		int db2RowCount = db2Rows.size();
+	public List<RowCompareResult> compareRecords(DatabaseSqlQueryRowResponse db1Records, DatabaseSqlQueryRowResponse db2Records) {
+		int db1RowCount = db1Records.getDbRows().size();
+		int db2RowCount = db2Records.getDbRows().size();
 		
-		if(db1RowCount != db2RowCount) {
-			log.error("Data row count not maching for db1Rows ->{} and db2Rows ->{}",db1RowCount,db2RowCount);
+		if(db1RowCount < db2RowCount) {
+			log.error("Data row count less for db1Rows ->{} and db2Rows ->{}",db1RowCount,db2RowCount);
+			int diff = db2RowCount - db1RowCount;
+			addDummyRowData(db1Records, diff);
 		}
+		else if(db1RowCount > db2RowCount) {
+			log.error("Data row count greater for db1Rows ->{} and db2Rows ->{}",db1RowCount,db2RowCount);
+			int diff = db1RowCount - db2RowCount;
+			addDummyRowData(db2Records, diff);
+		}
+		
 		if(db1RowCount ==0 || db2RowCount == 0) {
 			log.error("Data row count Zero for db1Rows ->{} or db2Rows ->{}",db1RowCount,db2RowCount);
 		}
 		
 		List<RowCompareResult> compareResult = new ArrayList<>();
+		db1RowCount = db1Records.getDbRows().size();
+		db2RowCount = db2Records.getDbRows().size();
 		
 		for(int i=0; i < db1RowCount; i++) {
 			DBRow db1RowRecord = null;
 			DBRow db2RowRecord = null;
 			try {
-				db1RowRecord = db1Rows.get(i);
-				db2RowRecord = db2Rows.get(i);
+				db1RowRecord = db1Records.getDbRows().get(i);
+				db2RowRecord = db2Records.getDbRows().get(i);
 				
 				int db1RowItemColumnCount = db1RowRecord.getColumns().size();
 				int db2RowItemColumnCount = db2RowRecord.getColumns().size();
@@ -158,5 +173,20 @@ public class CompareManager {
 		return compareResult;
 	}
 
+	private void addDummyRowData(DatabaseSqlQueryRowResponse dbRowDummyRecords, int diff) {
+		List<DBColumnMeta> columnsSorted = dbRowDummyRecords.getColumnNames() .stream().sorted((e1, e2) ->e1.getColId().compareTo(e2.getColId())).collect(Collectors.toList());
+		for (int i = 0; i < diff; i++) {
+			DBRow row = new DBRow(true);
+			for (DBColumnMeta dbColumn :columnsSorted) {
+				DBColumn emptyCol = new DBColumn(dbRowDummyRecords.getDbRows().size()+1,dbColumn.getColId(), dbColumn.getColumnName(), "<DUMMY_ROW_DATA>", dbColumn.getDataType(), dbColumn.getTableName());
+				row.getColumns().add(emptyCol);
+			}
+			dbRowDummyRecords.getDbRows().add(row);
+		}
+	}
+
+	
+	
+	
 }
 

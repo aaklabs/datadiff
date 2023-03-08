@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.aak.util.compare.diff.model.DBSource;
 import com.aak.util.compare.model.DBRow;
+import com.aak.util.compare.model.DatabaseSqlQueryRowResponse;
 import com.aak.util.compare.model.api.CompareRequest;
 import com.aak.util.compare.model.api.CompareResponse;
 import com.aak.util.compare.model.api.DataRequest;
@@ -42,7 +43,7 @@ public class CompareController {
 	}
 
 	@PostMapping("/data")
-	public List<DBRow> getRecordsUsingSql(@RequestBody DataRequest dataRequest) throws Exception {
+	public DatabaseSqlQueryRowResponse getRecordsUsingSql(@RequestBody DataRequest dataRequest) throws Exception {
 		log.info("Data Request->{}", dataRequest);
 		return service.executeSqlQuery(dataRequest.getSqlQuery(), DBSource.valueOf(dataRequest.getDbSource()));
 	}

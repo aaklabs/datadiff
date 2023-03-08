@@ -5,10 +5,11 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Set;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,7 +17,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.aak.util.compare.model.DBColumn;
+import com.aak.util.compare.model.DBColumnMeta;
 import com.aak.util.compare.model.DBRow;
+import com.aak.util.compare.model.DatabaseSqlQueryRowResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -105,17 +108,33 @@ public abstract class DBRepo {
 		return recordList;
 	}
 	
-	public List<DBRow> getRecords(String sql) {
+	public DatabaseSqlQueryRowResponse getRecords(String sql) {
 		List<DBRow> rows = new ArrayList<>();
 		List<Map<String, DBColumn>> data= useSqlQueryToGetRecord(sql);
+		Set<DBColumnMeta> columnNames = new HashSet<>();
+		int totalRows = 0;
+		int totalColumns = 0;
+		
+		if(data != null) {
+			totalRows = data.size();
+			totalColumns = data.get(0).size();
+		}
+		
+		
 		for (Map<String, DBColumn> map : data) {
-			DBRow row = new DBRow();
+			DBRow row = new DBRow(false);
 			for (DBColumn recordItem : map.values()) {
 				row.getColumns().add(recordItem);
+				columnNames.add(new DBColumnMeta(recordItem.getColId(), recordItem.getColumnName(), recordItem.getDataType(), recordItem.getTableName()));
 			}
 			rows.add(row);
+			
 		}
-		return rows;
+		
+		DatabaseSqlQueryRowResponse response = new DatabaseSqlQueryRowResponse(totalColumns, totalRows);
+		response.getDbRows().addAll(rows);
+		response.getColumnNames().addAll(columnNames);
+		return response;
 	}
 	
 	//https://www.mockaroo.com/

@@ -3,8 +3,8 @@ package com.aak.util.compare.model;
 import java.util.Objects;
 
 public class DBColumn {
-	private int rowNo;
-	private int colId;
+	private Integer rowNo;
+	private Integer colId;
 	private String columnName;
 	private Object columnValue;
 	private String dataType;
@@ -14,7 +14,7 @@ public class DBColumn {
 	public DBColumn() {
 		super();
 	}
-	public DBColumn(int rowNo, int colId, String columnName, Object columnValue, String dataType, String tableName) {
+	public DBColumn(Integer rowNo, Integer colId, String columnName, Object columnValue, String dataType, String tableName) {
 		super();
 		this.rowNo = rowNo;
 		this.colId = colId;
@@ -23,10 +23,10 @@ public class DBColumn {
 		this.dataType = dataType;
 		this.tableName = tableName;
 	}
-	public int getRowNo() {
+	public Integer getRowNo() {
 		return rowNo;
 	}
-	public void setRowNo(int rowNo) {
+	public void setRowNo(Integer rowNo) {
 		this.rowNo = rowNo;
 	}
 	public String getColumnName() {
@@ -57,10 +57,10 @@ public class DBColumn {
 	public int hashCode() {
 		return Objects.hash(colId, columnName, columnValue, dataType, rowNo, tableName);
 	}
-	public int getColId() {
+	public Integer getColId() {
 		return colId;
 	}
-	public void setColId(int colId) {
+	public void setColId(Integer colId) {
 		this.colId = colId;
 	}
 	@Override

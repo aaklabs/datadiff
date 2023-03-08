@@ -89,12 +89,15 @@ public class ExcelHelper {
 		int colIdx = 1;
 		for (GridRowColumn colValue : gridRowItem.getRows()) {
 			final Cell excelCell = row.createCell(colIdx++);
+			
+			String colVal = colValue.getColumnValue() == null ? "" : colValue.getColumnValue().toString();
+			
 			if (colValue.isDifferent()) {
 				XSSFCellStyle badCellStyle = getBadCellStyle(completeDataSheet, colValue.getColumnName().contains("_db1") ? ExcelExportCellAlignment.RIGHT : ExcelExportCellAlignment.LEFT);
-				excelCell.setCellValue(colValue.getColumnValue().toString());
+				excelCell.setCellValue(colVal);
 				excelCell.setCellStyle(badCellStyle);
 			} else {
-				excelCell.setCellValue(colValue.getColumnValue().toString());
+				excelCell.setCellValue(colVal);
 				if(gridRowItem.isDifferent()) {
 					//row highlight for bad records
 					excelCell.setCellStyle(getBadRowRegularCellStyle(completeDataSheet, colValue.getColumnName().contains("_db1") ? ExcelExportCellAlignment.RIGHT : ExcelExportCellAlignment.LEFT));
